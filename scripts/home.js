@@ -291,3 +291,84 @@ r_fprToDecimal.addEventListener("click", function () {
 	i_fprToDecimal.value = nextHigher;
 	FprToDecimal();
 });
+
+function EvaluateFunction(func, x) {
+	return math.evaluate(func.replaceAll("log", "(1/log(10))*log").replaceAll("ln", "log"), { x: x });
+}
+
+var bisection = document.querySelector("#Bisection");
+var i_bisection = bisection.querySelector(".function");
+var o_bisection = bisection.querySelector(".output");
+var l_bisection = bisection.querySelector(".left-margin");
+var r_bisection = bisection.querySelector(".right-margin");
+var m_bisection = bisection.querySelector(".iterations");
+var b_bisection = bisection.querySelector(".button");
+
+function Bisection(func, left, right, iterations) {
+	console.log(func + " " + left + " " + right + " " + iterations);
+	if (func.toString() == "" || left.toString() == "" || right.toString() == "" || iterations.toString() == "") {
+		o_bisection.value = "";
+		return;
+	}
+	if (Math.sign(EvaluateFunction(func, left)) * Math.sign(EvaluateFunction(func, right)) > 0) {
+		o_bisection.value = "There is an even number or no identifiable roots in this interval.";
+		return;
+	}
+	o_bisection.value = "";
+
+	if (EvaluateFunction(func, left) == 0) {
+		o_bisection.value = "Root found at " + left;
+		return;
+	}
+	if (EvaluateFunction(func, right) == 0) {
+		o_bisection.value = "Root found at " + right;
+		return;
+	}
+
+	var mid = 0;
+	for (var i = 0; i < iterations; i++) {
+		mid = (left + right) / 2;
+
+		if (EvaluateFunction(func, mid) == 0) {
+			o_bisection.value += i + 1 + ": " + mid + "\n";
+			return;
+		}
+
+		if (Math.sign(EvaluateFunction(func, left)) * Math.sign(EvaluateFunction(func, mid)) < 0) right = mid;
+		else left = mid;
+
+		o_bisection.value += i + 1 + ": " + mid + "\n";
+	}
+}
+
+b_bisection.addEventListener("click", function (event) {
+	event.preventDefault();
+	Bisection(i_bisection.value, parseFloat(l_bisection.value), parseFloat(r_bisection.value), parseInt(m_bisection.value));
+});
+
+var newton = document.querySelector("#Newton");
+var i_newton = newton.querySelector(".function");
+var o_newton = newton.querySelector(".output");
+var x_newton = newton.querySelector(".initial");
+var m_newton = newton.querySelector(".iterations");
+var b_newton = newton.querySelector(".button");
+
+function Newton(func, x, iterations) {
+	if (func.toString() == "" || x.toString() == "NaN" || iterations.toString() == "") {
+		o_newton.value = "";
+		return;
+	}
+
+	func = func.replaceAll("log", "(1/log(10))*log").replaceAll("ln", "log");
+
+	o_newton.value = "";
+	for (var i = 0; i < iterations; i++) {
+		x = x - EvaluateFunction(func, x) / math.derivative(func, "x").evaluate({ x: x });
+		o_newton.value += i + 1 + ": " + x + "\n";
+	}
+}
+
+b_newton.addEventListener("click", function (event) {
+	event.preventDefault();
+	Newton(i_newton.value, parseFloat(x_newton.value), parseInt(m_newton.value));
+});

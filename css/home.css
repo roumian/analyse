@@ -2,6 +2,7 @@
 	--transition-time: 0.1s;
 	--selected-color: rgba(0, 0, 0, 1);
 	--deselected-color: rgba(0, 0, 0, 0.6);
+	--placeholder-color: rgba(0, 0, 0, 0.3);
 	--font: "Manrope", "Courier New", sans-serif;
 	--font2: "Roboto Mono", "Courier New", sans-serif;
 }
@@ -14,7 +15,19 @@ input::-webkit-inner-spin-button {
 input[type="number"] {
 	-moz-appearance: textfield;
 	appearance: textfield;
-	/* Firefox */
+}
+
+::placeholder {
+	color: var(--placeholder-color);
+	opacity: 1;
+}
+
+:-ms-input-placeholder {
+	color: var(--placeholder-color);
+}
+
+::-ms-input-placeholder {
+	color: var(--placeholder-color);
 }
 
 body {
@@ -90,8 +103,27 @@ body {
 	gap: 20px;
 }
 
-.horizontal-container input {
+.horizontal-container .input-container {
 	width: 100%;
+	display: flex;
+	flex-direction: column;
+	margin: 0;
+	padding: 0;
+	gap: 2px;
+}
+
+.horizontal-container .input-container label {
+	margin: 0;
+	padding: 0;
+	font-weight: 600;
+	font-size: 12px;
+	color: var(--deselected-color); /*here*/
+	font-family: var(--font2);
+	transition: all var(--transition-time) ease-in-out;
+}
+
+.horizontal-container input {
+	width: calc(100% - 6px);
 	outline: none;
 	border: 1px solid var(--deselected-color); /*here*/
 	border-radius: 0;
@@ -107,8 +139,12 @@ body {
 	color: var(--selected-color);
 }
 
+.input-container:focus-within label {
+	color: var(--selected-color);
+}
+
 .horizontal-container textarea {
-	width: 100%;
+	width: calc(100% - 6px);
 	outline: none;
 	border: 1px solid var(--deselected-color); /*here*/
 	border-radius: 0;
@@ -133,6 +169,7 @@ body {
 	background-color: white;
 	color: var(--deselected-color);
 	font-family: var(--font);
+	font-weight: 600;
 
 	display: flex;
 	flex-direction: row;
@@ -170,4 +207,17 @@ body {
 	.grid {
 		grid-template-columns: 1fr;
 	}
+}
+
+::placeholder {
+	color: var(--placeholder-color);
+	opacity: 1;
+}
+
+:-ms-input-placeholder {
+	color: var(--placeholder-color);
+}
+
+::-ms-input-placeholder {
+	color: var(--placeholder-color);
 }
