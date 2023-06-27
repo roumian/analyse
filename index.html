@@ -13,141 +13,20 @@
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&family=Roboto+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
 
-		<title>Analyse_v0.21</title>
+		<title>Analyse_v0.25</title>
 	</head>
-	<body>
-		<section class="grid">
-			<form id="FPR-Decimal" class="container">
-				<h2>FPR to Decimal</h2>
+	<body id="body">
+		<section class="big-container">
+			<form class="container">
+				<img id="say-my-name" src="gfx/say my name.gif" />
 				<div class="vertical-container">
 					<div class="horizontal-container">
 						<div class="input-container">
-							<label>Exponent</label>
-							<input class="exponent" type="number" name="power" value="11" />
-						</div>
-						<div class="input-container">
-							<label>Mantissa</label>
-							<input class="mantissa" type="number" name="mantissa" value="52" />
+							<input id="password" type="password" name="function" />
 						</div>
 					</div>
 					<div class="horizontal-container">
-						<div class="input-container">
-							<label>Binary</label>
-							<textarea class="input" name="input" rows="3" cols="1"></textarea>
-						</div>
-					</div>
-					<div class="horizontal-container">
-						<button class="left-button" type="button" value="left">
-							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.707 17.293 8.414 13H18v-2H8.414l4.293-4.293-1.414-1.414L4.586 12l6.707 6.707z"></path></svg>
-						</button>
-						<button class="right-button" type="button" value="right">
-							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m11.293 17.293 1.414 1.414L19.414 12l-6.707-6.707-1.414 1.414L15.586 11H6v2h9.586z"></path></svg>
-						</button>
-					</div>
-					<div class="horizontal-container">
-						<div class="input-container">
-							<label>Decimal</label>
-							<input class="output" readonly name="number" value="0" />
-						</div>
-					</div>
-				</div>
-			</form>
-			<form id="Decimal-FPR" class="container">
-				<h2>Decimal to FPR</h2>
-				<div class="vertical-container">
-					<div class="horizontal-container">
-						<div class="input-container">
-							<label>Exponent</label>
-							<input class="exponent" type="number" name="power" value="11" />
-						</div>
-						<div class="input-container">
-							<label>Mantissa</label>
-							<input class="mantissa" type="number" name="mantissa" value="52" />
-						</div>
-					</div>
-					<div class="horizontal-container">
-						<div class="input-container">
-							<label>Decimal</label>
-							<input class="input" type="number" name="number" value="0" />
-						</div>
-					</div>
-					<div class="horizontal-container">
-						<button class="left-button" type="button" value="left">
-							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.707 17.293 8.414 13H18v-2H8.414l4.293-4.293-1.414-1.414L4.586 12l6.707 6.707z"></path></svg>
-						</button>
-						<button class="right-button" type="button" value="right">
-							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m11.293 17.293 1.414 1.414L19.414 12l-6.707-6.707-1.414 1.414L15.586 11H6v2h9.586z"></path></svg>
-						</button>
-					</div>
-					<div class="horizontal-container">
-						<div class="input-container">
-							<label>Binary</label>
-							<textarea class="output" name="output" rows="3" cols="1" readonly></textarea>
-						</div>
-					</div>
-				</div>
-			</form>
-			<form id="Bisection" class="container">
-				<h2>Bisection method</h2>
-				<div class="vertical-container">
-					<div class="horizontal-container">
-						<div class="input-container">
-							<label>Function</label>
-							<input class="function" type="text" name="function" placeholder="2e^(-(8/x)-5)+cos(pi*x)-asin(0.5)-ln(x)" />
-						</div>
-					</div>
-					<div class="horizontal-container">
-						<div class="input-container">
-							<label>[x,</label>
-							<input class="left-margin" type="number" name="number" />
-						</div>
-						<div class="input-container">
-							<label>y]</label>
-							<input class="right-margin" type="number" name="number" />
-						</div>
-						<div class="input-container">
-							<label>Iterations</label>
-							<input class="iterations" type="number" name="number" />
-						</div>
-					</div>
-					<div class="horizontal-container">
-						<button class="button" type="submit">Solve</button>
-					</div>
-					<div class="horizontal-container">
-						<div class="input-container">
-							<label>Output</label>
-							<textarea class="output" name="output" rows="10" cols="1" readonly></textarea>
-						</div>
-					</div>
-				</div>
-			</form>
-			<form id="Newton" class="container">
-				<h2>Newton's method</h2>
-				<div class="vertical-container">
-					<div class="horizontal-container">
-						<div class="input-container">
-							<label>Function</label>
-							<input class="function" type="text" rows="2" name="function" placeholder="2e^(-8/x)+cos(pi*x)-asin(0.5)-ln(x)" />
-						</div>
-					</div>
-					<div class="horizontal-container">
-						<div class="input-container">
-							<label>Initial value</label>
-							<input class="initial" type="number" name="number" />
-						</div>
-						<div class="input-container">
-							<label>Iterations</label>
-							<input class="iterations" type="number" name="number" />
-						</div>
-					</div>
-					<div class="horizontal-container">
-						<button class="button" type="submit">Solve</button>
-					</div>
-					<div class="horizontal-container">
-						<div class="input-container">
-							<label>Output</label>
-							<textarea class="output" name="output" rows="10" cols="1" readonly></textarea>
-						</div>
+						<button id="main-button" class="button" type="submit">Submit</button>
 					</div>
 				</div>
 			</form>
