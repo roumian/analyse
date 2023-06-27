@@ -1,9 +1,15 @@
+console.log(math.config());
+
 function toIEEE754(v, ebits, fbits) {
+	math.config({
+		number: "BigNumber",
+		precision: 100
+	});
+
 	v = math.evaluate(v);
 
 	var bias = (1 << (ebits - 1)) - 1;
 
-	// Compute sign, exponent, fraction
 	var s, e, f;
 	if (isNaN(v)) {
 		e = (1 << bias) - 1;
@@ -31,7 +37,6 @@ function toIEEE754(v, ebits, fbits) {
 		}
 	}
 
-	// Pack sign, exponent, fraction
 	var i,
 		bits = [];
 	for (i = fbits; i; i -= 1) {
@@ -46,7 +51,6 @@ function toIEEE754(v, ebits, fbits) {
 	bits.reverse();
 	var str = bits.join("");
 
-	// Bits to bytes
 	var bytes = [];
 	while (str.length) {
 		bytes.push(parseInt(str.substring(0, 8), 2));
@@ -139,23 +143,10 @@ function setCaretPosition(txt) {
 }
 
 function addBinary(a, b) {
-	var i = a.length - 1;
-	var j = b.length - 1;
-	var carry = 0;
-	var result = "";
-	while (i >= 0 || j >= 0) {
-		var m = i < 0 ? 0 : a[i] | 0;
-		var n = j < 0 ? 0 : b[j] | 0;
-		carry += m + n;
-		result = (carry % 2) + result;
-		carry = (carry / 2) | 0;
-		i--;
-		j--;
-	}
-	if (carry !== 0) {
-		result = carry + result;
-	}
-	return result;
+	var result = (BigInt(`0b${a}`) + BigInt(`0b${b}`)).toString(2);
+	var max = Math.max(a.length, b.length);
+
+	return result.replace(/^0+/, "").padStart(max, "0");
 }
 
 function subBinary(a, b) {
@@ -257,37 +248,77 @@ i_fprToDecimal.addEventListener("input", function (event) {
 });
 
 l_decimalToFpr.addEventListener("click", function () {
+	var mantissa = parseInt(m_decimalToFpr.value);
+	var exponent = parseInt(e_decimalToFpr.value);
+
 	var nextLower = "";
-	if (i_decimalToFpr.value != 0) {
-		nextLower = subBinary(o_decimalToFpr.value.replaceAll(" ", "").replaceAll(/[^01]/g, ""), "1");
+	var b = o_decimalToFpr.value.replaceAll(" ", "").replaceAll(/[^01]/g, "");
+	if (b[0] == "0" && b.replaceAll("0", "") != "") {
+		nextLower = subBinary(b, "1");
+		console.log("here1");
+	} else if (b.replaceAll("0", "") == "") {
+		b = b.replace("0", "1");
+		nextLower = addBinary(b, "1");
+	} else if (b[0] == 1) {
+		nextLower = addBinary(b, "1");
 	}
+
 	i_decimalToFpr.value = fromIEEE754(nextLower, parseInt(e_decimalToFpr.value), parseInt(m_decimalToFpr.value));
-	DecimalToFpr();
+
+	o_decimalToFpr.innerHTML = nextLower.slice(0, 1) + " " + nextLower.slice(1, exponent + 1) + " " + nextLower.slice(exponent + 1, exponent + 1 + mantissa);
 });
 
 r_decimalToFpr.addEventListener("click", function () {
+	var mantissa = parseInt(m_decimalToFpr.value);
+	var exponent = parseInt(e_decimalToFpr.value);
+
 	var nextHigher = "";
-	if (i_decimalToFpr.value != 0) {
-		nextHigher = addBinary(o_decimalToFpr.value.replaceAll(" ", "").replaceAll(/[^01]/g, ""), "1");
+	var b = o_decimalToFpr.value.replaceAll(" ", "").replaceAll(/[^01]/g, "");
+
+	if (b[0] == "0") {
+		nextHigher = addBinary(b, "1");
+	} else if (b[0] == "1" && b.replaceAll("0", "") == "1") {
+		b = b.replace("1", "0");
+		nextHigher = addBinary(b, "1");
+	} else if (b[0] == "1") {
+		nextHigher = subBinary(b, "1");
 	}
+
 	i_decimalToFpr.value = fromIEEE754(nextHigher, parseInt(e_decimalToFpr.value), parseInt(m_decimalToFpr.value));
-	DecimalToFpr();
+
+	o_decimalToFpr.innerHTML = nextHigher.slice(0, 1) + " " + nextHigher.slice(1, exponent + 1) + " " + nextHigher.slice(exponent + 1, exponent + 1 + mantissa);
 });
 
 l_fprToDecimal.addEventListener("click", function () {
 	var nextLower = "";
-	if (o_fprToDecimal.value != 0) {
-		nextLower = subBinary(i_fprToDecimal.value.replaceAll(" ", "").replaceAll(/[^01]/g, ""), "1");
+	var b = i_fprToDecimal.value.replaceAll(" ", "").replaceAll(/[^01]/g, "");
+
+	if (b[0] == "0" && b.replaceAll("0", "") != "") {
+		nextLower = subBinary(b, "1");
+	} else if (b.replaceAll("0", "") == "") {
+		b = b.replace("0", "1");
+		nextLower = addBinary(b, "1");
+	} else if (b[0] == 1) {
+		nextLower = addBinary(b, "1");
 	}
+
 	i_fprToDecimal.value = nextLower;
 	FprToDecimal();
 });
 
 r_fprToDecimal.addEventListener("click", function () {
 	var nextHigher = "";
-	if (o_fprToDecimal.value != 0) {
-		nextHigher = addBinary(i_fprToDecimal.value.replaceAll(" ", "").replaceAll(/[^01]/g, ""), "1");
+	var b = i_fprToDecimal.value.replaceAll(" ", "").replaceAll(/[^01]/g, "");
+
+	if (b[0] == "0") {
+		nextHigher = addBinary(b, "1");
+	} else if (b[0] == "1" && b.replaceAll("0", "") == "1") {
+		b = b.replace("1", "0");
+		nextHigher = addBinary(b, "1");
+	} else if (b[0] == "1") {
+		nextHigher = subBinary(b, "1");
 	}
+
 	i_fprToDecimal.value = nextHigher;
 	FprToDecimal();
 });
@@ -359,11 +390,17 @@ function Newton(func, x, iterations) {
 		return;
 	}
 
+	math.config({
+		number: "number",
+		precision: 100
+	});
+
 	func = func.replaceAll("log", "(1/log(10))*log").replaceAll("ln", "log");
+	var derivative = math.derivative(func, "x").toString().replaceAll("log", "(1/log(10))*log").replaceAll("ln", "log").replaceAll(" ", "");
 
 	o_newton.value = "";
 	for (var i = 0; i < iterations; i++) {
-		x = x - EvaluateFunction(func, x) / math.derivative(func, "x").evaluate({ x: x });
+		x = x - EvaluateFunction(func, x) / EvaluateFunction(derivative, x);
 		o_newton.value += i + 1 + ": " + x + "\n";
 	}
 }
