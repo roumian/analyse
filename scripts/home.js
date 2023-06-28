@@ -35,14 +35,14 @@ function Load() {
 					<textarea class="input" name="input" rows="3" cols="1"></textarea>
 				</div>
 			</div>
-			<!--<div class="horizontal-container">
+			<div class="horizontal-container">
 				<button class="left-button" type="button" value="left">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.707 17.293 8.414 13H18v-2H8.414l4.293-4.293-1.414-1.414L4.586 12l6.707 6.707z"></path></svg>
 				</button>
 				<button class="right-button" type="button" value="right">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m11.293 17.293 1.414 1.414L19.414 12l-6.707-6.707-1.414 1.414L15.586 11H6v2h9.586z"></path></svg>
 				</button>
-			</div>-->
+			</div>
 			<div class="horizontal-container">
 				<div class="input-container">
 					<label>Decimal</label>
@@ -70,14 +70,14 @@ function Load() {
 					<input class="input" type="number" name="number" value="0" />
 				</div>
 			</div>
-			<!--<div class="horizontal-container">
+			<div class="horizontal-container">
 				<button class="left-button" type="button" value="left">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.707 17.293 8.414 13H18v-2H8.414l4.293-4.293-1.414-1.414L4.586 12l6.707 6.707z"></path></svg>
 				</button>
 				<button class="right-button" type="button" value="right">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m11.293 17.293 1.414 1.414L19.414 12l-6.707-6.707-1.414 1.414L15.586 11H6v2h9.586z"></path></svg>
 				</button>
-			</div>-->
+			</div>
 			<div class="horizontal-container">
 				<div class="input-container">
 					<label>Binary</label>
@@ -415,7 +415,7 @@ function Load() {
 		FprToDecimal();
 	});
 
-	/*l_decimalToFpr.addEventListener("click", function () {
+	l_decimalToFpr.addEventListener("click", function () {
 		var mantissa = parseInt(m_decimalToFpr.value);
 		var exponent = parseInt(e_decimalToFpr.value);
 
@@ -489,7 +489,7 @@ function Load() {
 
 		i_fprToDecimal.value = nextHigher;
 		FprToDecimal();
-	});*/
+	});
 
 	function EvaluateFunction(func, x) {
 		math.config({
