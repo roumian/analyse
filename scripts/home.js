@@ -15,6 +15,12 @@ document.querySelector("#say-my-name").addEventListener("click", function () {
 });
 
 function Load() {
+	math.config({
+		number: "BigNumber",
+		precision: 500,
+		epsilon: 1e-200
+	});
+
 	document.querySelector("#body").innerHTML = `<section class="grid">
 	<form title="Convert from a floating point representation to a decimal. Input the number in binary and get the output in decimal." id="FPR-Decimal" class="container">
 		<h2>FPR to Decimal</h2>
@@ -235,23 +241,24 @@ function Load() {
 
 		math.config({
 			number: "BigNumber",
-			precision: 100
+			precision: 500,
+			epsilon: 1e-200
 		});
 
 		var e = bits.slice(1, ebits + 1);
 		e = parseInt(e, 2);
 
-		var f = 0;
+		var f = math.bignumber(0);
 		for (var i = ebits + 1; i < ebits + fbits + 1; i++) {
 			var bit = parseInt(bits[i]);
-			f = math.add(f, math.multiply(bit, math.pow(2, -(i - ebits))));
+			f = math.bignumber(math.add(math.bignumber(f), math.bignumber(math.multiply(math.bignumber(bit), math.bignumber(math.pow(2, -(i - ebits)))))));
 		}
 
 		var s = bits[0] == 0 ? 1 : -1;
 
 		var k = math.pow(2, ebits - 1) - 1;
 
-		return math.multiply(math.multiply(s, math.add(1, f)), math.pow(2, e - k));
+		return math.bignumber(math.multiply(math.bignumber(math.multiply(math.bignumber(s), math.bignumber(math.add(1, math.bignumber(f))))), math.bignumber(math.pow(2, e - k))));
 	}
 
 	function fromIEEE754Double(b) {
@@ -428,7 +435,6 @@ function Load() {
 		var b = o_decimalToFpr.value.replaceAll(" ", "").replaceAll(/[^01]/g, "");
 		if (b[0] == "0" && b.replaceAll("0", "") != "") {
 			nextLower = subBinary(b, "1");
-			console.log("here1");
 		} else if (b.replaceAll("0", "") == "") {
 			b = b.replace("0", "1");
 			nextLower = addBinary(b, "1");
@@ -514,7 +520,6 @@ function Load() {
 	var b_bisection = bisection.querySelector(".button");
 
 	function Bisection(func, left, right, iterations) {
-		console.log(func + " " + left + " " + right + " " + iterations);
 		if (func.toString() == "" || left.toString() == "" || right.toString() == "" || iterations.toString() == "") {
 			o_bisection.value = "";
 			return;
