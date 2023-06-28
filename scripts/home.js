@@ -150,7 +150,12 @@ function Load() {
 			</div>
 		</div>
 	</form>
-</section>`;
+</section>
+<footer>
+			<div class="container">
+				<p class="footer-text">Nothing is flaweless. Use at your own risk.</p>
+			</div>
+		</footer>`;
 
 	function toIEEE754(v, ebits, fbits) {
 		math.config({
@@ -540,14 +545,14 @@ function Load() {
 			mid = (left + right) / 2;
 
 			if (EvaluateFunction(func, mid) == 0) {
-				o_bisection.value += i + 1 + ": " + mid + "\n";
+				o_bisection.value += i + 1 + ": [Root found] " + mid + "\n";
 				return;
 			}
 
 			if (Math.sign(EvaluateFunction(func, left)) * Math.sign(EvaluateFunction(func, mid)) < 0) right = mid;
 			else left = mid;
 
-			o_bisection.value += i + 1 + ": " + mid + "\n";
+			o_bisection.value += i + 1 + " - [" + left + ", " + right + "]: " + mid + "\n";
 		}
 	}
 

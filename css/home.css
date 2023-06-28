@@ -73,7 +73,7 @@ body {
 
 .grid {
 	width: calc(100% - 40px);
-	max-width: 700px;
+	max-width: 1000px;
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
 	gap: 22px;
@@ -231,6 +231,40 @@ body {
 
 .horizontal-container button:hover > svg > path {
 	fill: var(--selected-color);
+}
+
+footer {
+	width: calc(100% - 40px);
+	max-width: 1000px;
+	margin: 20px auto;
+}
+
+footer .container {
+	width: calc(100% - 28px);
+	margin: 0 auto;
+	padding: 14px;
+	box-shadow: 0px 0px 0px 1px var(--deselected-color);
+	border-radius: 0px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	transition: all var(--transition-time) ease-in-out;
+}
+
+footer .container:hover > .footer-text {
+	color: var(--selected-color);
+}
+
+.footer-text {
+	padding: 0;
+	margin: 0;
+
+	font-family: var(--font2);
+	font-size: 12px;
+	font-weight: 600;
+	color: var(--deselected-color);
+	transition: all var(--transition-time) ease-in-out;
 }
 
 @media screen and (max-width: 600px) {
