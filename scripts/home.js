@@ -1,4 +1,4 @@
-var password = "daddy";
+var password = "luar";
 
 document.querySelector("#main-button").addEventListener("click", function (event) {
 	event.preventDefault();
@@ -16,7 +16,7 @@ document.querySelector("#say-my-name").addEventListener("click", function () {
 
 function Load() {
 	document.querySelector("#body").innerHTML = `<section class="grid">
-	<form id="FPR-Decimal" class="container">
+	<form title="Convert from a floating point representation to a decimal. Input the number in binary and get the output in decimal." id="FPR-Decimal" class="container">
 		<h2>FPR to Decimal</h2>
 		<div class="vertical-container">
 			<div class="horizontal-container">
@@ -35,14 +35,14 @@ function Load() {
 					<textarea class="input" name="input" rows="3" cols="1"></textarea>
 				</div>
 			</div>
-			<div class="horizontal-container">
+			<!--<div class="horizontal-container">
 				<button class="left-button" type="button" value="left">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.707 17.293 8.414 13H18v-2H8.414l4.293-4.293-1.414-1.414L4.586 12l6.707 6.707z"></path></svg>
 				</button>
 				<button class="right-button" type="button" value="right">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m11.293 17.293 1.414 1.414L19.414 12l-6.707-6.707-1.414 1.414L15.586 11H6v2h9.586z"></path></svg>
 				</button>
-			</div>
+			</div>-->
 			<div class="horizontal-container">
 				<div class="input-container">
 					<label>Decimal</label>
@@ -51,7 +51,7 @@ function Load() {
 			</div>
 		</div>
 	</form>
-	<form id="Decimal-FPR" class="container">
+	<form title="Convert from decimal to a floating point representation. Input the number in decimal and get the output in binary." id="Decimal-FPR" class="container">
 		<h2>Decimal to FPR</h2>
 		<div class="vertical-container">
 			<div class="horizontal-container">
@@ -70,14 +70,14 @@ function Load() {
 					<input class="input" type="number" name="number" value="0" />
 				</div>
 			</div>
-			<div class="horizontal-container">
+			<!--<div class="horizontal-container">
 				<button class="left-button" type="button" value="left">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.707 17.293 8.414 13H18v-2H8.414l4.293-4.293-1.414-1.414L4.586 12l6.707 6.707z"></path></svg>
 				</button>
 				<button class="right-button" type="button" value="right">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m11.293 17.293 1.414 1.414L19.414 12l-6.707-6.707-1.414 1.414L15.586 11H6v2h9.586z"></path></svg>
 				</button>
-			</div>
+			</div>-->
 			<div class="horizontal-container">
 				<div class="input-container">
 					<label>Binary</label>
@@ -86,7 +86,7 @@ function Load() {
 			</div>
 		</div>
 	</form>
-	<form id="Bisection" class="container">
+	<form title="Input the function with an interval [x,y] and the number of iterations required. The output is the iterations for finding the root using the bisection method." id="Bisection" class="container">
 		<h2>Bisection method</h2>
 		<div class="vertical-container">
 			<div class="horizontal-container">
@@ -120,7 +120,7 @@ function Load() {
 			</div>
 		</div>
 	</form>
-	<form id="Newton" class="container">
+	<form title="Input the function with an intial value and the number of iterations required. The output is the iterations for finding the root using Newton's method." id="Newton" class="container">
 		<h2>Newton's method</h2>
 		<div class="vertical-container">
 			<div class="horizontal-container">
@@ -381,6 +381,14 @@ function Load() {
 		DecimalToFpr();
 	});
 
+	m_decimalToFpr.addEventListener("change", function () {
+		DecimalToFpr();
+	});
+
+	e_decimalToFpr.addEventListener("change", function () {
+		DecimalToFpr();
+	});
+
 	function FprToDecimal() {
 		var mantissa = parseInt(m_fprToDecimal.value);
 		var exponent = parseInt(e_fprToDecimal.value);
@@ -399,7 +407,15 @@ function Load() {
 		FprToDecimal();
 	});
 
-	l_decimalToFpr.addEventListener("click", function () {
+	m_fprToDecimal.addEventListener("change", function () {
+		FprToDecimal();
+	});
+
+	e_fprToDecimal.addEventListener("change", function () {
+		FprToDecimal();
+	});
+
+	/*l_decimalToFpr.addEventListener("click", function () {
 		var mantissa = parseInt(m_decimalToFpr.value);
 		var exponent = parseInt(e_decimalToFpr.value);
 
@@ -473,9 +489,14 @@ function Load() {
 
 		i_fprToDecimal.value = nextHigher;
 		FprToDecimal();
-	});
+	});*/
 
 	function EvaluateFunction(func, x) {
+		math.config({
+			number: "number",
+			precision: 100
+		});
+
 		return math.evaluate(func.replaceAll("log", "(1/log(10))*log").replaceAll("ln", "log"), { x: x });
 	}
 
@@ -493,6 +514,12 @@ function Load() {
 			o_bisection.value = "";
 			return;
 		}
+
+		math.config({
+			number: "number",
+			precision: 100
+		});
+
 		if (Math.sign(EvaluateFunction(func, left)) * Math.sign(EvaluateFunction(func, right)) > 0) {
 			o_bisection.value = "There is an even number or no identifiable roots in this interval.";
 			return;
